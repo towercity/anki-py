@@ -15,12 +15,21 @@ with open('config.json', 'r') as conf_file:
 # Load the Collection
 col = Collection(cpath, log=True) # Entry point to the API
 
-# Use the available methods to list the notes
+# for cid in col.findNotes("tag:%s" % change_tag): 
+#     note = col.getNote(cid)
+#     front =  note.fields[2] # "Front" is the first field of these cards
+#     print(front)
 
-change_tag = config['tags']['change']
+# col is anki collection
+# config is complete configutration dictionary
+def change_cards(col, config):
+    print('running subs change...')
 
-for cid in col.findNotes("tag:%s" % change_tag): 
-    
-    note = col.getNote(cid)
-    front =  note.fields[2] # "Front" is the first field of these cards
-    print(front)
+    # short names for config dictionaries
+    tags = config['tags']
+    models = config['models']
+
+    print('gathering notes...')
+
+    # search the database for subs cards tagged to change
+    noteIds = col.findNotes("tag:%s is:new" % tags['change'])
