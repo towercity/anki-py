@@ -14,5 +14,5 @@ col = Collection(cpath, log=True) # Entry point to the API
 # Use the available methods to list the notes
 for cid in col.findNotes("tag:00change"): 
     note = col.getNote(cid)
-    front =  note.fields[0] # "Front" is the first field of these cards
+    front =  note.fields[2] # "Front" is the first field of these cards
     print(front)
