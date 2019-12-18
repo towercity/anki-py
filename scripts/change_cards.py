@@ -1,7 +1,7 @@
 import sys, os
 
 # Load Anki library
-sys.path.append("anki")
+sys.path.append("../anki")
 from anki.storage import Collection
 
 # Define the path to the Anki SQLite collection
