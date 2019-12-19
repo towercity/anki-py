@@ -5,9 +5,14 @@ from pprint import pprint
 sys.path.append("anki")
 from anki.storage import Collection
 
+# removes the change tag
 def strip_tags(tags, change_tag):
     new_tags = filter(lambda tag: tag is not change_tag, tags)
     return list(new_tags)
+
+def convert_note(note):
+    term = note.fields[5] # pulls in the vocab term from the 'Note' field
+    print(term)
 
 # config is complete configutration dictionary
 def change_cards(col, config):
@@ -29,10 +34,12 @@ def change_cards(col, config):
     
     print("%s notes gathered\ncreating new notes..." % len(noteIds))
 
+    new_notes = [] #blank array to hold new notes made below
+    # create the notes
     for noteId in noteIds:
         note = col.getNote(noteId)
-        term = note.fields[5] # pulls in the vocab term from the 'Note' field
-        print(term)
+        new_notes.append(convert_note(note))
+
 
 # Define the path to the Anki SQLite collection
 PROFILE_HOME = os.path.expanduser("~/.local/share/Anki2/User 1") 
@@ -45,4 +52,4 @@ with open('config.json', 'r') as conf_file:
 # Load the Collection
 col = Collection(cpath, log=True) # Entry point to the API
 
-# change_cards(col, config)
+change_cards(col, config)
