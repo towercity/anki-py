@@ -11,7 +11,7 @@ def strip_tags(tags, change_tag):
     new_tags = filter(lambda tag: tag is not change_tag, tags)
     return list(new_tags)
 
-def convert_note(note, model, deck, tags):
+def create_new_note(note, model, deck, tags):
     term = note.fields[5] # pulls in the vocab term from the 'Note' field
     print(f"attempting {term}....")
     jisho_resp = jisho.get_term_one(term) # pulls info from Jisho
@@ -61,7 +61,7 @@ def change_cards(col, config):
     # create the notes
     for noteId in noteIds:
         note = col.getNote(noteId)
-        new_notes.append(convert_note(note, model=models['japanese'], deck=decks['main'], tags=tags))
+        new_notes.append(create_new_note(note, model=models['japanese'], deck=decks['main'], tags=tags))
     
     pprint(new_notes)
 
