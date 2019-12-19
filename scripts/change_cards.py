@@ -1,5 +1,6 @@
 import sys, os, json
 from pprint import pprint
+import jisho
 
 # Load Anki library
 sys.path.append("anki")
@@ -10,9 +11,27 @@ def strip_tags(tags, change_tag):
     new_tags = filter(lambda tag: tag is not change_tag, tags)
     return list(new_tags)
 
-def convert_note(note):
+def convert_note(note, model, deck, tags):
     term = note.fields[5] # pulls in the vocab term from the 'Note' field
     print(term)
+    print(term.encode('utf-8'))
+    jisho_resp = jisho.get_term_one(term) # pulls info from Jisho
+
+    new_note = {
+        "deckName": deck,
+        "modelName": model,
+        "fields": {
+            "Vocabulary": term,
+            "Vocabulary-Reading": jisho.get_reading(jisho_resp),
+            "Meaning": jisho.get_definition(jisho_resp),
+            "Sentence-1": note.fields[2],
+            "Sentence-1-Reading": note.fields[4],
+            "Sentence-1-English": note.fields[3],
+            "Sentence-1-Audio": note.fields[0],
+        },
+        tags: strip_tags(note.tags, tags['change'])
+    }
+    
 
 # config is complete configutration dictionary
 def change_cards(col, config):
@@ -21,6 +40,7 @@ def change_cards(col, config):
     # short names for config dictionaries
     tags = config['tags']
     models = config['models']
+    decks = config['decks']
 
     print('gathering notes...')
 
@@ -38,7 +58,7 @@ def change_cards(col, config):
     # create the notes
     for noteId in noteIds:
         note = col.getNote(noteId)
-        new_notes.append(convert_note(note))
+        new_notes.append(convert_note(note, model=models['japanese'], deck=decks['main'], tags=tags))
 
 
 # Define the path to the Anki SQLite collection
