@@ -19,5 +19,8 @@ def get_reading(jisho_resp): #returns term with [furigana]
     else:
         return term_dict['reading']
 
-
-print(get_reading((get_term_one('red'))))
+def get_definition(jisho_resp):
+    senses = jisho_resp['senses'] # jisho gives each separate definition as a 'sense'
+    sub_definitions = map(lambda sense: ', '.join(sense['english_definitions']), senses)
+    definition = '; '.join(list(sub_definitions))
+    return definition
