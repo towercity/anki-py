@@ -28,6 +28,7 @@ def convert_note(note, model, deck, tags):
             "Sentence-1-Reading": note.fields[4],
             "Sentence-1-English": note.fields[3],
             "Sentence-1-Audio": note.fields[0],
+            "Sentence-1-Image": note.fields[1]
         },
         tags: strip_tags(note.tags, tags['change'])
     }
