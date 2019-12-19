@@ -104,8 +104,12 @@ def change_cards(col, config):
         send_to_anki(new_note, col)
         # pass
     
-    print('saving new notes to database')
+    print('deleting old notes...')
+    col.remNotes(noteIds)
+
+    print('saving to database...')
     col.save()
+    print('changes saved!\nplease open anki desktop to sync')
 
 # Define the path to the Anki SQLite collection
 PROFILE_HOME = os.path.expanduser("~/.local/share/Anki2/User 1") 
