@@ -23,6 +23,3 @@ def get_definition(jisho_resp):
     sub_definitions = map(lambda sense: ', '.join(sense['english_definitions']), senses)
     definition = '; '.join(list(sub_definitions))
     return definition
-
-
-pprint(get_reading(get_term_one('red')))
