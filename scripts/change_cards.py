@@ -24,17 +24,52 @@ def create_new_note(note, model, deck, tags):
             "Vocabulary": term,
             "Vocabulary-Reading": jisho.get_reading(jisho_resp),
             "Meaning": jisho.get_definition(jisho_resp),
-            "Sentence-1": note.fields[2],
-            "Sentence-1-Reading": note.fields[4],
-            "Sentence-1-English": note.fields[3],
             "Sentence-1-Audio": note.fields[0],
             "Sentence-1-Image": note.fields[1]
+            "Sentence-1": note.fields[2],
+            "Sentence-1-English": note.fields[3],
+            "Sentence-1-Reading": note.fields[4],
         },
         "tags": strip_tags(note.tags, tags['change'])
     }
 
     return new_note
     
+def send_to_anki(new_note, col):
+    # Set the model
+    modelBasic = col.models.byName(new_note['modelName'])
+    col.decks.current()['mid'] = modelBasic['id']
+
+    # Get the deck
+    deck = col.decks.byName(new_note['deckName'])
+
+    # Instantiate the new note
+    note = col.newNote()
+    note.model()['did'] = deck['id']
+
+    # Add the fields
+    new_field = new_note['fields']
+    note.fields[0] = new_field['Vocabulary']
+    note.fields[1] = new_field['Vocabulary-Reading']
+    note.fields[3] = new_field['Meaning']
+    note.fields[7] = new_field['Sentence-1']
+    note.fields[8] = new_field['Sentence-1-Reading']
+    note.fields[10] = new_field['Sentence-1-English']
+    note.fields[11] = new_field['Sentence-1-Audio']
+    note.fields[12] = new_field['Sentence-1-Image']
+
+    # Print Note Info
+    f"new note\nterm: {note.fields[0]}\nmeaning: {note.fields[3]}\n"
+
+    # Set the tags (and add the new ones to the deck configuration
+    tags = " ".join(new_note["tags"])
+    note.tags = col.tags.canonify(col.tags.split(tags))
+    m = note.model()
+    m['tags'] = note.tags
+    col.models.save(m)
+
+    # Add the note
+    col.addNote(note)
 
 # config is complete configutration dictionary
 def change_cards(col, config):
