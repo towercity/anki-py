@@ -98,7 +98,13 @@ def change_cards(col, config):
         note = col.getNote(noteId)
         new_notes.append(create_new_note(note, model=models['japanese'], deck=decks['main'], tags=tags))
     
-    print(f"...\ncreated {len(new_notes)} new notes\nsending to Anki...")
+    print(f"...\ncreated {len(new_notes)} new notes\nsending to Anki...\n")
+
+    for new_note in new_notes:
+        send_to_anki(new_note, col)
+    
+    print('saving new notes to database')
+    col.save()
 
 # Define the path to the Anki SQLite collection
 PROFILE_HOME = os.path.expanduser("~/.local/share/Anki2/User 1") 
