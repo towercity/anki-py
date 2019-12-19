@@ -13,9 +13,9 @@ def strip_tags(tags, change_tag):
 
 def convert_note(note, model, deck, tags):
     term = note.fields[5] # pulls in the vocab term from the 'Note' field
-    print(term)
-    print(term.encode('utf-8'))
+    print(f"attempting {term}....")
     jisho_resp = jisho.get_term_one(term) # pulls info from Jisho
+    print('info found!')
 
     new_note = {
         "deckName": deck,
@@ -30,8 +30,10 @@ def convert_note(note, model, deck, tags):
             "Sentence-1-Audio": note.fields[0],
             "Sentence-1-Image": note.fields[1]
         },
-        tags: strip_tags(note.tags, tags['change'])
+        "tags": strip_tags(note.tags, tags['change'])
     }
+
+    return new_note
     
 
 # config is complete configutration dictionary
@@ -60,6 +62,8 @@ def change_cards(col, config):
     for noteId in noteIds:
         note = col.getNote(noteId)
         new_notes.append(convert_note(note, model=models['japanese'], deck=decks['main'], tags=tags))
+    
+    pprint(new_notes)
 
 
 # Define the path to the Anki SQLite collection
