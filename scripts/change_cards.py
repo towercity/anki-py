@@ -5,6 +5,10 @@ from pprint import pprint
 sys.path.append("anki")
 from anki.storage import Collection
 
+def strip_tags(tags, change_tag):
+    new_tags = filter(lambda tag: tag is not change_tag, tags)
+    return list(new_tags)
+
 # config is complete configutration dictionary
 def change_cards(col, config):
     print('running subs change...')
@@ -41,4 +45,4 @@ with open('config.json', 'r') as conf_file:
 # Load the Collection
 col = Collection(cpath, log=True) # Entry point to the API
 
-change_cards(col, config)
+# change_cards(col, config)
