@@ -8,8 +8,8 @@ from anki.storage import Collection
 
 # removes the change tag
 def strip_tags(tags, change_tag):
-    new_tags = filter(lambda tag: tag is not change_tag, tags)
-    return list(new_tags)
+    tags.remove(change_tag)
+    return tags
 
 def create_new_note(note, model, deck, tags):
     term = note.fields[5] # pulls in the vocab term from the 'Note' field
@@ -101,7 +101,8 @@ def change_cards(col, config):
     print(f"...\ncreated {len(new_notes)} new notes\nsending to Anki...\n")
 
     for new_note in new_notes:
-        send_to_anki(new_note, col)
+        # send_to_anki(new_note, col)
+        pass
     
     print('saving new notes to database')
     col.save()
