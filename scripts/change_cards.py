@@ -63,8 +63,7 @@ def change_cards(col, config):
         note = col.getNote(noteId)
         new_notes.append(create_new_note(note, model=models['japanese'], deck=decks['main'], tags=tags))
     
-    pprint(new_notes)
-
+    print(f"...\ncreated {len(new_notes)} new notes\nsending to Anki...")
 
 # Define the path to the Anki SQLite collection
 PROFILE_HOME = os.path.expanduser("~/.local/share/Anki2/User 1") 
