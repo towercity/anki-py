@@ -25,7 +25,7 @@ def create_new_note(note, model, deck, tags):
             "Vocabulary-Reading": jisho.get_reading(jisho_resp),
             "Meaning": jisho.get_definition(jisho_resp),
             "Sentence-1-Audio": note.fields[0],
-            "Sentence-1-Image": note.fields[1]
+            "Sentence-1-Image": note.fields[1],
             "Sentence-1": note.fields[2],
             "Sentence-1-English": note.fields[3],
             "Sentence-1-Reading": note.fields[4],
