@@ -59,7 +59,7 @@ def send_to_anki(new_note, col):
     note.fields[12] = new_field['Sentence-1-Image']
 
     # Print Note Info
-    f"new note\nterm: {note.fields[0]}\nmeaning: {note.fields[3]}\n"
+    print(f"new note\nterm: {note.fields[0]}\nmeaning: {note.fields[3]}\n")
 
     # Set the tags (and add the new ones to the deck configuration
     tags = " ".join(new_note["tags"])
@@ -101,8 +101,8 @@ def change_cards(col, config):
     print(f"...\ncreated {len(new_notes)} new notes\nsending to Anki...\n")
 
     for new_note in new_notes:
-        # send_to_anki(new_note, col)
-        pass
+        send_to_anki(new_note, col)
+        # pass
     
     print('saving new notes to database')
     col.save()
