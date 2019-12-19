@@ -1,12 +1,11 @@
-import urllib.request as request
-import json
 from pprint import pprint
+import requests
 
 JISHO_API = "https://jisho.org/api/v1/search/words?keyword="
 
 def get_term_all(search_term):
     url = "%s%s" % (JISHO_API, search_term)
-    return json.loads(request.urlopen(url).read())["data"]
+    return requests.get(url).json()["data"]
 
 def get_term_one(search_term):
     jisho_resp = get_term_all(search_term)
@@ -24,3 +23,6 @@ def get_definition(jisho_resp):
     sub_definitions = map(lambda sense: ', '.join(sense['english_definitions']), senses)
     definition = '; '.join(list(sub_definitions))
     return definition
+
+
+pprint(get_reading(get_term_one('red')))
