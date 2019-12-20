@@ -1,10 +1,12 @@
 import sys, os, json
 from pprint import pprint
-import jisho
+from .jisho import JishoHandler
 
 # Load Anki library
 sys.path.append("anki")
 from anki.storage import Collection
+
+jisho = JishoHandler()
 
 # removes the change tag
 def strip_tags(tags, change_tag):
@@ -111,15 +113,3 @@ def change_cards(col, config):
     col.save()
     print('changes saved!\nplease open anki desktop to sync')
 
-# Load the config file
-with open('config.json', 'r') as conf_file:
-    config = json.load(conf_file)
-
-# Define the path to the Anki SQLite collection
-PROFILE_HOME = os.path.expanduser(config["collection_dir"]) 
-cpath = os.path.join(PROFILE_HOME, "collection.anki2")
-
-# Load the Collection
-col = Collection(cpath, log=True) # Entry point to the API
-
-change_cards(col, config)
