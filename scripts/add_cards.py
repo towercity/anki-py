@@ -14,7 +14,7 @@ def find_root(term, pos):
         
     return ''.join(term)
 
-def add_term(jisho_resp, col, tag):
+def add_term(jisho_resp, col, tag, config):
     term = jisho.get_japanese_term(jisho_resp)
 
     # check if not already exists; if so, add and leave
@@ -33,10 +33,11 @@ def add_term(jisho_resp, col, tag):
 
     if subs2srs_notes: #if it's found something....
         print('Note found!\nPreparing note')
+        edit_notes = subs2srs_notes[0:1]
         note = col.getNote(subs2srs_notes[0]) #only edit the first found note
         note.fields[5] = term #saves the term to the correct field in the model
-        col.tags.bulkAdd([note], config["tags"]["change"], True) #mark it to change 
-        col.tags.bulkAdd([note], tag, True) #add the new tag
+        col.tags.bulkAdd(edit_notes, config["tags"]["change"], True) #mark it to change 
+        col.tags.bulkAdd(edit_notes, tag, True) #add the new tag
     else:
         print('No notes found.\nAdding new card...')
 
@@ -77,7 +78,7 @@ def add_cards(col, config, tag, new_terms=[]):
             if not jisho_resp:
                 print(f"\"{term}\" not found.")
             else: 
-                add_term(jisho_resp, col, tag)
+                add_term(jisho_resp, col, tag, config)
     else:
         print(f"adding new cards to {tag}")
 
@@ -113,7 +114,7 @@ def add_cards(col, config, tag, new_terms=[]):
                 add_note = 'y'
             
             if add_note is 'y' or add_note is 'Y' or add_note is 'yes' or add_note is 'YES' or add_note is 'Yes':
-                add_term(jisho_resp, col, tag) #the logic to add the cardo
+                add_term(jisho_resp, col, tag, config) #the logic to add the cardo
                 print(f"added {term}")
                 vocab_archive.append(term)
 
