@@ -36,10 +36,11 @@ for currentArgument, currentValue in arguments:
     if currentArgument in ("-h", "--help"):
         print ("displaying help")
         print ("functionality coming soon...")
-        sys.exit(0) #function should only be run on its own
+        sys.exit(0)
     elif currentArgument in ("-a", "--add"):
         print (("adding %s") % (currentValue))
+        print (values)
         print ("functionality coming soon...")
-        sys.exit(0) #function should only be run on its own
+        sys.exit(0)
     elif currentArgument in ("-c", "--change"):
         change_cards(col, config)
