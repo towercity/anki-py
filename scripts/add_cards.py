@@ -4,6 +4,9 @@ from .jisho import JishoHandler
 
 jisho = JishoHandler()
 
+def add_term(jisho_resp):
+    print(jisho.get_japanese_term(jisho_resp))
+
 def add_cards(col, config, tag, new_terms=[]):
     vocab_archive = [] #keeps record of added cards
 
@@ -11,6 +14,12 @@ def add_cards(col, config, tag, new_terms=[]):
         print(f"adding {len(new_terms)} new cards to {tag}")
         print(new_terms)
         # add a call to the card add function to the new_terms here
+        for term in new_terms:
+            jisho_resp = jisho.get_term_one(term)
+            if not jisho_resp:
+                print(f"\"{term}\" not found.")
+            else: 
+                add_term(jisho_resp)
     else:
         print(f"adding new cards to {tag}")
 
@@ -31,7 +40,6 @@ def add_cards(col, config, tag, new_terms=[]):
             print('No term found. rerunning search')
         else:
             pprint(jisho_resp) #for testing
-            term = jisho.get_japanese_term(jisho_resp) #overwrites entered variable
 
             print(" ------ ")
             print(f"Selected Term: {jisho.get_reading(jisho_resp)}")
@@ -46,3 +54,4 @@ def add_cards(col, config, tag, new_terms=[]):
             
             if add_note is 'y' or add_note is 'Y' or add_note is 'yes' or add_note is 'YES' or add_note is 'Yes':
                 print ('its a yes')
+                add_term(jisho_resp) #the logic to add the card
