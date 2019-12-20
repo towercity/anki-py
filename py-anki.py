@@ -1,4 +1,4 @@
-import sys, os, json
+import sys, os, json, getopt
 from pprint import pprint
 from scripts.change_cards import change_cards
 
@@ -17,4 +17,29 @@ cpath = os.path.join(PROFILE_HOME, "collection.anki2")
 # Load the Collection
 col = Collection(cpath, log=True) # Entry point to the API
 
-change_cards(col, config)
+# change_cards(col, config)
+fullCmdArguments = sys.argv
+argumentList = fullCmdArguments[1:]
+
+unixOptions = "ha:c"
+gnuOptions = ["help", "add=", "change",]
+
+try:
+    arguments, values = getopt.getopt(argumentList, unixOptions, gnuOptions)
+except getopt.error as err:
+    # output error, and return with an error code
+    print (str(err))
+    sys.exit(2)
+
+# evaluate given options
+for currentArgument, currentValue in arguments:
+    if currentArgument in ("-h", "--help"):
+        print ("displaying help")
+        print ("functionality coming soon...")
+        sys.exit(0) #function should only be run on its own
+    elif currentArgument in ("-a", "--add"):
+        print (("adding %s") % (currentValue))
+        print ("functionality coming soon...")
+        sys.exit(0) #function should only be run on its own
+    elif currentArgument in ("-c", "--change"):
+        change_cards(col, config)
