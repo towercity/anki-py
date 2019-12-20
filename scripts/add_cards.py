@@ -30,4 +30,19 @@ def add_cards(col, config, tag, new_terms=[]):
         if not jisho_resp:
             print('No term found. rerunning search')
         else:
+            pprint(jisho_resp) #for testing
             term = jisho.get_japanese_term(jisho_resp) #overwrites entered variable
+
+            print(" ------ ")
+            print(f"Selected Term: {jisho.get_reading(jisho_resp)}")
+            print(f"Part of Speech: {jisho.get_pos(jisho_resp)}")
+            print(f"Definition: {jisho.get_definition(jisho_resp)}")
+            print(" ------ ")
+            add_note = input("Add term? (Y/n)")
+
+            # take in no answer as yes
+            if add_note is '':
+                add_note = 'y'
+            
+            if add_note is 'y' or add_note is 'Y' or add_note is 'yes' or add_note is 'YES' or add_note is 'Yes':
+                print ('its a yes')
