@@ -16,6 +16,8 @@ def add_term(jisho_resp, col, tag):
 
     print(f"{term} does not yet exist")
 
+
+
 def add_cards(col, config, tag, new_terms=[]):
     vocab_archive = [] #keeps record of added cards
 
@@ -50,6 +52,8 @@ def add_cards(col, config, tag, new_terms=[]):
         else:
             pprint(jisho_resp) #for testing
 
+            term = jisho.get_japanese_term(jisho_resp)
+
             print(" ------ ")
             print(f"Selected Term: {jisho.get_reading(jisho_resp)}")
             print(f"Part of Speech: {jisho.get_pos(jisho_resp)}")
@@ -62,8 +66,11 @@ def add_cards(col, config, tag, new_terms=[]):
                 add_note = 'y'
             
             if add_note is 'y' or add_note is 'Y' or add_note is 'yes' or add_note is 'YES' or add_note is 'Yes':
-                print ('its a yes')
-                add_term(jisho_resp, col, tag) #the logic to add the card
+                add_term(jisho_resp, col, tag) #the logic to add the cardo
+                print(f"added {term}")
+                vocab_archive.append(term)
+
+        print(f"current archive length: {len(vocab_archive)}")
 
     print('saving to database')
     col.save()
