@@ -4,8 +4,15 @@ from .jisho import JishoHandler
 
 jisho = JishoHandler()
 
-def add_term(jisho_resp, col):
-    print(jisho.get_japanese_term(jisho_resp))
+def add_term(jisho_resp, col, tag):
+    term = jisho.get_japanese_term(jisho_resp)
+
+    # check if not already exists
+    note_exists = col.findNotes(f"Vocabulary:{term}")
+    if note_exists:
+        print(f"{term} already exists in database. Adding tag {tag}...")
+        col.tags.bulkAdd(note_exists, tag, True) 
+            
 
 def add_cards(col, config, tag, new_terms=[]):
     vocab_archive = [] #keeps record of added cards
@@ -19,7 +26,7 @@ def add_cards(col, config, tag, new_terms=[]):
             if not jisho_resp:
                 print(f"\"{term}\" not found.")
             else: 
-                add_term(jisho_resp, col)
+                add_term(jisho_resp, col, tag)
     else:
         print(f"adding new cards to {tag}")
 
@@ -54,4 +61,7 @@ def add_cards(col, config, tag, new_terms=[]):
             
             if add_note is 'y' or add_note is 'Y' or add_note is 'yes' or add_note is 'YES' or add_note is 'Yes':
                 print ('its a yes')
-                add_term(jisho_resp, col) #the logic to add the card
+                add_term(jisho_resp, col, tag) #the logic to add the card
+
+    print('saving to database')
+    col.save()
