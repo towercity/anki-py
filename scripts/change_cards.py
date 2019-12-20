@@ -111,13 +111,13 @@ def change_cards(col, config):
     col.save()
     print('changes saved!\nplease open anki desktop to sync')
 
-# Define the path to the Anki SQLite collection
-PROFILE_HOME = os.path.expanduser("~/.local/share/Anki2/User 1") 
-cpath = os.path.join(PROFILE_HOME, "collection.anki2")
-
 # Load the config file
 with open('config.json', 'r') as conf_file:
     config = json.load(conf_file)
+
+# Define the path to the Anki SQLite collection
+PROFILE_HOME = os.path.expanduser(config["collection_dir"]) 
+cpath = os.path.join(PROFILE_HOME, "collection.anki2")
 
 # Load the Collection
 col = Collection(cpath, log=True) # Entry point to the API
