@@ -1,6 +1,7 @@
 import sys, os, json, getopt
 from pprint import pprint
 from scripts.change_cards import change_cards
+from scripts.add_cards import add_cards
 
 # Load Anki library
 sys.path.append("anki")
@@ -38,9 +39,7 @@ for currentArgument, currentValue in arguments:
         print ("functionality coming soon...")
         sys.exit(0)
     elif currentArgument in ("-a", "--add"):
-        print (("adding %s") % (currentValue))
-        print (values)
-        print ("functionality coming soon...")
+        add_cards(col, config, currentValue, values)
         sys.exit(0)
     elif currentArgument in ("-c", "--change"):
         change_cards(col, config)
