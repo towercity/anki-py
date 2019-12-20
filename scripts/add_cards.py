@@ -7,12 +7,14 @@ jisho = JishoHandler()
 def add_term(jisho_resp, col, tag):
     term = jisho.get_japanese_term(jisho_resp)
 
-    # check if not already exists
+    # check if not already exists; if so, add and leave
     note_exists = col.findNotes(f"Vocabulary:{term}")
     if note_exists:
         print(f"{term} already exists in database. Adding tag {tag}...")
         col.tags.bulkAdd(note_exists, tag, True) #the actual adding logic for anki 
         return True
+
+    print(f"{term} does not yet exist")
 
 def add_cards(col, config, tag, new_terms=[]):
     vocab_archive = [] #keeps record of added cards
