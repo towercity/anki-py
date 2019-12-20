@@ -30,3 +30,6 @@ class JishoHandler():
 
     def get_japanese_term(self, jisho_resp):
         return jisho_resp['japanese'][0]['word']
+
+    def get_pos(self, jisho_resp):
+        return jisho_resp['senses'][0]['parts_of_speech'][0]
