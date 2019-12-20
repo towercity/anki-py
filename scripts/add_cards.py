@@ -4,6 +4,16 @@ from .jisho import JishoHandler
 
 jisho = JishoHandler()
 
+def find_root(term, pos):
+    term = list(term) #make a list for easy manipulations
+
+    if pos is 'adjective' and term[len(term) - 1] == 'い':
+        term = term[:-1] #remove the last character of the word
+    elif pos is 'verb':
+        term = term[:-1]
+        
+    return ''.join(term)
+
 def add_term(jisho_resp, col, tag):
     term = jisho.get_japanese_term(jisho_resp)
 
@@ -16,7 +26,8 @@ def add_term(jisho_resp, col, tag):
 
     print(f"{term} does not yet exist")
 
-
+    # find root term for better quality searching
+    term_root = find_root(term, jisho.get_pos(jisho_resp))
 
 def add_cards(col, config, tag, new_terms=[]):
     vocab_archive = [] #keeps record of added cards
