@@ -112,4 +112,3 @@ def change_cards(col, config):
     print('saving to database...')
     col.save()
     print('changes saved!\nplease open anki desktop to sync')
-

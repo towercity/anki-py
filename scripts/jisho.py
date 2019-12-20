@@ -10,7 +10,10 @@ class JishoHandler():
 
     def get_term_one(self, search_term):
         jisho_resp = self.get_term_all(search_term)
-        return jisho_resp[0] 
+        if jisho_resp:
+            return jisho_resp[0] 
+        else:
+            return False
 
     def get_reading(self, jisho_resp): #returns term with [furigana]
         term_dict = jisho_resp['japanese'][0]
@@ -24,3 +27,6 @@ class JishoHandler():
         sub_definitions = map(lambda sense: ', '.join(sense['english_definitions']), senses)
         definition = '; '.join(list(sub_definitions))
         return definition
+
+    def get_japanese_term(self, jisho_resp):
+        return jisho_resp['japanese'][0]['word']

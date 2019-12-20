@@ -1,4 +1,5 @@
 import sys
+from pprint import pprint
 from .jisho import JishoHandler
 
 jisho = JishoHandler()
@@ -18,7 +19,15 @@ def add_cards(col, config, tag, new_terms=[]):
     while searching:
         term = input("Enter term or 'q' to quit: ")
 
+        # exit condition
         if term is 'q':
             print('exiting...')
             searching = False
-            pass
+            break
+
+        # pull data from jisho        
+        jisho_resp = jisho.get_term_one(term)
+        if not jisho_resp:
+            print('No term found. rerunning search')
+        else:
+            term = jisho.get_japanese_term(jisho_resp) #overwrites entered variable
