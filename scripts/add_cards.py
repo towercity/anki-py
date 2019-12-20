@@ -28,6 +28,42 @@ def add_term(jisho_resp, col, tag):
 
     # find root term for better quality searching
     term_root = find_root(term, jisho.get_pos(jisho_resp))
+    print('Searching for notes in database with term...')
+    subs2srs_notes = col.findNotes(f"note:{config['models']['subs2srs']} {term_root}")
+
+    if subs2srs_notes: #if it's found something....
+        print('Note found!\nPreparing note')
+        note = col.getNote(subs2srs_notes[0]) #only edit the first found note
+        note.fields[5] = term #saves the term to the correct field in the model
+        col.tags.bulkAdd([note], config["tags"]["change"], True) #mark it to change 
+        col.tags.bulkAdd([note], tag, True) #add the new tag
+    else:
+        print('No notes found.\nAdding new card...')
+
+        # Set the model
+        modelBasic = col.models.byName(config["models"]["japanese"])
+        col.decks.current()['mid'] = modelBasic['id']
+
+        # Get the deck
+        deck = col.decks.byName(config["decks"]["main"])
+
+        # Instantiate the new note
+        note = col.newNote()
+        note.model()['did'] = deck['id']
+
+        # Add the fields
+        note.fields[0] = term
+        note.fields[1] = jisho.get_reading(jisho_resp)
+        note.fields[3] = jisho.get_definition(jisho_resp) 
+
+        # Set the tags (and add the new ones to the deck configuration
+        note.tags = col.tags.canonify(col.tags.split(tag))
+        m = note.model()
+        m['tags'] = note.tags
+        col.models.save(m)
+
+        # Add the note
+        col.addNote(note)
 
 def add_cards(col, config, tag, new_terms=[]):
     vocab_archive = [] #keeps record of added cards
