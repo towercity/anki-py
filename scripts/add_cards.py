@@ -4,7 +4,7 @@ from .jisho import JishoHandler
 
 jisho = JishoHandler()
 
-def add_term(jisho_resp):
+def add_term(jisho_resp, col):
     print(jisho.get_japanese_term(jisho_resp))
 
 def add_cards(col, config, tag, new_terms=[]):
@@ -19,7 +19,7 @@ def add_cards(col, config, tag, new_terms=[]):
             if not jisho_resp:
                 print(f"\"{term}\" not found.")
             else: 
-                add_term(jisho_resp)
+                add_term(jisho_resp, col)
     else:
         print(f"adding new cards to {tag}")
 
@@ -54,4 +54,4 @@ def add_cards(col, config, tag, new_terms=[]):
             
             if add_note is 'y' or add_note is 'Y' or add_note is 'yes' or add_note is 'YES' or add_note is 'Yes':
                 print ('its a yes')
-                add_term(jisho_resp) #the logic to add the card
+                add_term(jisho_resp, col) #the logic to add the card
