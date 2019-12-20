@@ -1,6 +1,7 @@
 import sys
 from pprint import pprint
 from .jisho import JishoHandler
+from .change_cards import change_cards
 
 jisho = JishoHandler()
 
@@ -36,8 +37,11 @@ def add_term(jisho_resp, col, tag, config):
         edit_notes = subs2srs_notes[0:1]
         note = col.getNote(subs2srs_notes[0]) #only edit the first found note
         note.fields[5] = term #saves the term to the correct field in the model
+        print(note.fields[5])
+        print(term)
         col.tags.bulkAdd(edit_notes, config["tags"]["change"], True) #mark it to change 
         col.tags.bulkAdd(edit_notes, tag, True) #add the new tag
+        note.flush()
     else:
         print('No notes found.\nAdding new card...')
 
@@ -98,8 +102,6 @@ def add_cards(col, config, tag, new_terms=[]):
         if not jisho_resp:
             print('No term found. rerunning search')
         else:
-            pprint(jisho_resp) #for testing
-
             term = jisho.get_japanese_term(jisho_resp)
 
             print(" ------ ")
@@ -119,6 +121,9 @@ def add_cards(col, config, tag, new_terms=[]):
                 vocab_archive.append(term)
 
         print(f"current archive length: {len(vocab_archive)}")
+
+    print('Copying over subs2srs notes...')
+    change_cards(col, config)
 
     print('saving to database')
     col.save()
