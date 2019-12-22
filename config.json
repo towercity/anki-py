@@ -1,7 +1,7 @@
 {
     "decks": {
-        "subs2srs": "All::01 - 日本語::01 - カード::02 - subs_bank",
-        "main": "All::01 - 日本語::01 - カード::01 - Cards"
+        "subs2srs": "All::01 - Japanese::01 - Cards::02 - subs_bank",
+        "main": "All::01 - Japanese::01 - Cards::01 - Cards"
     },
     "models": {
         "japanese": "Japanese",
