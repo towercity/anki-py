@@ -8,9 +8,9 @@ jisho = JishoHandler()
 def find_root(term, pos):
     term = list(term) #make a list for easy manipulations
 
-    if pos is 'adjective' and term[len(term) - 1] == 'い':
+    if pos == 'adjective' and term[len(term) - 1] == 'い':
         term = term[:-1] #remove the last character of the word
-    elif pos is 'verb':
+    elif pos == 'verb':
         term = term[:-1]
         
     return ''.join(term)
@@ -83,6 +83,7 @@ def add_cards(col, config, tag, new_terms=[]):
                 print(f"\"{term}\" not found.")
             else: 
                 add_term(jisho_resp, col, tag, config)
+                vocab_archive.append(term)
     else:
         print(f"adding new cards to {tag}")
 
@@ -92,7 +93,7 @@ def add_cards(col, config, tag, new_terms=[]):
         term = input("Enter term or 'q' to quit: ")
 
         # exit condition
-        if term is 'q':
+        if term == 'q':
             print('exiting...')
             searching = False
             break
@@ -112,15 +113,15 @@ def add_cards(col, config, tag, new_terms=[]):
             add_note = input("Add term? (Y/n)")
 
             # take in no answer as yes
-            if add_note is '':
+            if add_note == '':
                 add_note = 'y'
             
-            if add_note is 'y' or add_note is 'Y' or add_note is 'yes' or add_note is 'YES' or add_note is 'Yes':
+            if add_note == 'y' or add_note == 'Y' or add_note == 'yes' or add_note == 'YES' or add_note == 'Yes':
                 add_term(jisho_resp, col, tag, config) #the logic to add the cardo
                 print(f"added {term}")
                 vocab_archive.append(term)
 
-        print(f"current archive length: {len(vocab_archive)}")
+        print(f"current archive: {" ".join(vocab_archive)}")
 
     print('Copying over subs2srs notes...')
     change_cards(col, config)
