@@ -121,7 +121,7 @@ def add_cards(col, config, tag, new_terms=[]):
                 print(f"added {term}")
                 vocab_archive.append(term)
 
-        print(f"current archive: {" ".join(vocab_archive)}")
+        print(f"current archive: {' '.join(vocab_archive)}")
 
     print('Copying over subs2srs notes...')
     change_cards(col, config)
