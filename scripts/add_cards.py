@@ -37,8 +37,6 @@ def add_term(jisho_resp, col, tag, config):
         edit_notes = subs2srs_notes[0:1]
         note = col.getNote(subs2srs_notes[0]) #only edit the first found note
         note.fields[5] = term #saves the term to the correct field in the model
-        print(note.fields[5])
-        print(term)
         col.tags.bulkAdd(edit_notes, config["tags"]["change"], True) #mark it to change 
         col.tags.bulkAdd(edit_notes, tag, True) #add the new tag
         note.flush()
@@ -102,6 +100,7 @@ def add_cards(col, config, tag, new_terms=[]):
         jisho_resp = jisho.get_term_one(term)
         if not jisho_resp:
             print('No term found. rerunning search')
+            print(" ------ ")
         else:
             term = jisho.get_japanese_term(jisho_resp)
 
@@ -110,7 +109,7 @@ def add_cards(col, config, tag, new_terms=[]):
             print(f"Part of Speech: {jisho.get_pos(jisho_resp)}")
             print(f"Definition: {jisho.get_definition(jisho_resp)}")
             print(" ------ ")
-            add_note = input("Add term? (Y/n)")
+            add_note = input("Add term? (Y/n): ")
 
             # take in no answer as yes
             if add_note == '':
@@ -119,7 +118,7 @@ def add_cards(col, config, tag, new_terms=[]):
             if add_note == 'y' or add_note == 'Y' or add_note == 'yes' or add_note == 'YES' or add_note == 'Yes':
                 add_term(jisho_resp, col, tag, config) #the logic to add the cardo
                 print(f"added {term}")
-                vocab_archive.append(term)
+                vocab_archive.append(term)            
 
         print(f"current archive: {' '.join(vocab_archive)}")
 
